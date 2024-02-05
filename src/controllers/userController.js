@@ -109,4 +109,34 @@ export default {
         }
     },
 
+    /**
+    * ? Endpoint para editar um usuário. 
+    * ---
+    * @param id ()
+    * ---
+    * @return message(str) - Mensagem de sucesso.
+    */
+    async update(req, res) {
+        const { id } = req.params;
+        const data = req.body;
+
+        try {
+            await db("rest_users")
+                .update(data)
+                .where({ id });
+
+            return res.status(200).json({
+                status: "Success",
+                message: "Dados atualizados."
+            });
+            
+        } catch (error) {
+            console.log(error);
+            return res.status(400).json({
+                status: 400,
+                message: "Problemas ao atualizar os dados do usuário. Contate o administrador do sistema."
+            })
+        }
+    },
+
 }
