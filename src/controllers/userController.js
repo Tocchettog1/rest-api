@@ -71,4 +71,41 @@ export default {
         }
     },
 
+    /**
+    * ? Endpoint para registrar um usuário. 
+    * ---
+    * @return message(str) - Mensagem de sucesso.
+    */
+    async post(req, res) {
+        const data = req.body;
+
+        try {
+            const checkEmail = await db("rest_users")
+                .select('email')
+                .first()
+                .where({ email: data.email });
+
+            if(checkEmail) {
+                return res.status(422).json({
+                    status: "Conflict",
+                    message: "Email já cadastrado."
+                });
+            }
+
+            await db("rest_users")
+                .insert(data);
+
+            return res.status(201).json({
+                status: "Success"
+            });
+
+        } catch (error) {
+            console.log(error);
+            return res.status(400).json({
+                status: 400,
+                message: "Problemas ao registrar o usuário. Contate o administrador do sistema."
+            })
+        }
+    },
+
 }
