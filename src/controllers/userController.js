@@ -18,7 +18,7 @@ export default {
                 .select()
                 .where((builder) => {
                     if (email) {
-                        builder.where({ email });
+                        builder.where('email', 'LIKE', `%${email}%`);
                     }
                     if (name) {
                         builder.where('name', 'LIKE', `%${name}%`);
