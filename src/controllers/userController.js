@@ -96,7 +96,8 @@ export default {
                 .insert(data);
 
             return res.status(201).json({
-                status: "Success"
+                status: "Success",
+                message: 'Usuário cadastrado com sucesso.'
             });
 
         } catch (error) {
