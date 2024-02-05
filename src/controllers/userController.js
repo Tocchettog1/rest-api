@@ -30,7 +30,7 @@ export default {
         } catch (error) {
             console.log(error);
             return res.status(400).json({
-                status: 400,
+                status: "Error",
                 message: "Problemas ao buscar o(s) usuário(s). Contate o administrador do sistema."
             })
         }
@@ -65,7 +65,7 @@ export default {
         } catch (error) {
             console.log(error);
             return res.status(400).json({
-                status: 400,
+                status: "Error",
                 message: "Problemas ao buscar o usuário. Contate o administrador do sistema."
             })
         }
@@ -85,7 +85,7 @@ export default {
                 .first()
                 .where({ email: data.email });
 
-            if(checkEmail) {
+            if (checkEmail) {
                 return res.status(422).json({
                     status: "Conflict",
                     message: "Email já cadastrado."
@@ -103,7 +103,7 @@ export default {
         } catch (error) {
             console.log(error);
             return res.status(400).json({
-                status: 400,
+                status: "Error",
                 message: "Problemas ao registrar o usuário. Contate o administrador do sistema."
             })
         }
@@ -129,14 +129,42 @@ export default {
                 status: "Success",
                 message: "Dados atualizados."
             });
-            
+
         } catch (error) {
             console.log(error);
             return res.status(400).json({
-                status: 400,
+                status: "Error",
                 message: "Problemas ao atualizar os dados do usuário. Contate o administrador do sistema."
             })
         }
     },
 
+    /**
+    * ? Endpoint para deletar um usuário. 
+    * ---
+    * @param id ()
+    * ---
+    * @return message(str) - Mensagem de sucesso.
+    */
+    async delete(req, res) {
+        const { id } = req.params;
+
+        try {
+            await db("rest_users")
+                .delete()
+                .where({ id });
+
+            return res.status(200).json({
+                status: "Success",
+                message: "Usuário deletado."
+            });
+
+        } catch (error) {
+            console.log(error);
+            return res.status(400).json({
+                status: "Error",
+                message: "Problemas ao deletar o usuário. Contate o administrador do sistema."
+            })
+        }
+    },
 }
